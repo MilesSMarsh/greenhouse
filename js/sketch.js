@@ -35,9 +35,9 @@ function draw() {
   drawGreenhouse();
 
   //instatntiate plant
-  let plant1 = new Plant(width/4, 550, [4, 70, 3, 60]);
-  let plant2 = new Plant(width/2, 550, [3, 45, 2, 50]);
-  let plant3 = new Plant(3*width/4, 550, [5, 40, 5, 50]);
+  let plant1 = new Plant(width/4, 550, [4, 70, 3, 60, color(50, 100, 50), color(100, 100, 50)]);
+  let plant2 = new Plant(width/2, 550, [3, 45, 2, 50, color(50, 100, 100), color(100, 50, 20)]);
+  let plant3 = new Plant(3*width/4, 550, [5, 40, 5, 50, color(70, 150, 150), color(150, 100, 150)]);
 
 
 
@@ -97,10 +97,11 @@ function drawGreenhouse(){
 
 class Plant{
   constructor(x, y, structure){
-    this.structure = structure; //[depth, angle, stems, length]
-    this.plantColor = color(200, 100, 100);
+    this.structure = structure; //[depth, angle, stems, length, stemColor, leafcolor]
     this.x = x;
     this.y = y;
+    this.stemColor = this.structure[4];
+    this.leafColor = this.structure[5];
   }
 
   drawFeatures(){
@@ -220,7 +221,7 @@ class Plant{
   }
 
   drawStem(x1, y1, x2, y2){
-    stroke(this.plantColor);
+    stroke(this.stemColor);
     strokeWeight(5);
     beginShape();
     vertex(x1, y1);
@@ -229,8 +230,8 @@ class Plant{
   }
 
   drawLeaf(x, y){
-    stroke(this.plantColor)
-    fill(color("orange"));
+    stroke(this.stemColor)
+    fill(this.leafColor);
     strokeWeight(0);
     circle(x, y, 20);
   }
