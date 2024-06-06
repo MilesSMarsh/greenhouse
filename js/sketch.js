@@ -11,6 +11,9 @@
 let seed = 1;
 let plant1, plant2, plant3;
 
+// optimal plant
+let opPlant;
+
 // mousePressed() function is called once after every time a mouse button is pressed
 function mousePressed() {
   // code to run when mouse is pressed
@@ -27,6 +30,10 @@ function setup() {
 
   // Attach event listener to the button
   $("#randomize-btn").click(randomizePlants);
+  // Attach event listener to plant buttons
+  $("#p1-btn").click(plant1Preserve);
+  $("#p2-btn").click(plant2Preserve);
+  $("#p3-btn").click(plant3Preserve);
 }
 
 // Initialize plants with default values
@@ -57,9 +64,10 @@ function draw() {
       length: Random value between 30 and 70 units.
       stemColor and leafColor: Random colors.
       */
+
 function randomizePlants() {
   seed = Math.floor(Math.random() * 1000); // Change the seed for randomization
-
+  
   // Randomize plant attributes
   plant1 = new Plant(width / 4, 550, [
     random(2, 6), 
@@ -88,7 +96,15 @@ function randomizePlants() {
     color(random(255), random(255), random(255))
   ]);
 }
-
+function plant1Preserve() {
+  opPlant = plant1;
+}
+function plant2Preserve() {
+  opPlant = plant2;
+}
+function plant3Preserve() {
+  opPlant = plant3;
+}
 function drawGreenhouse() {
   let greenhouseGreen = color(211, 293, 199);
   let groundColor = color(100, 200, 0);
