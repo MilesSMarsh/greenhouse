@@ -96,14 +96,57 @@ function randomizePlants() {
     color(random(255), random(255), random(255))
   ]);
 }
+
+//function to make plant children, very similar to the structure of randomize plants,
+//except it uses a parentPlant object and its information to generate the two
+//other plants
+
+function generatePlantChildren(parentPlant){
+  seed = Math.floor(Math.random() * 1000); // Change the seed for randomization
+  
+  // [depth, angle, stems, length, stemColor, leafColor]
+  // Randomize plant attributes
+  plant1 = new Plant(width / 4, 550, [
+    random(2, 6), 
+    random(30, 70), 
+    parentPlant.structure[2], 
+    random(30, 70), 
+    parentPlant.structure[4], 
+    parentPlant.structure[5]
+  ]);
+
+  plant2 = new Plant(width / 2, 550, [
+    parentPlant.structure[0], 
+    parentPlant.structure[1], 
+    parentPlant.structure[2], 
+    parentPlant.structure[3], 
+    parentPlant.structure[4], 
+    parentPlant.structure[5]
+  ]);
+
+  plant3 = new Plant(3 * width / 4, 550, [
+    parentPlant.structure[0], 
+    random(30, 70), 
+    Math.floor(random(1, 6)), 
+    parentPlant.structure[3], 
+    color(random(255), random(255), random(255)), 
+    parentPlant.structure[5]
+  ]);
+}
+
+//possibly try to call generatePlantChildren with the respective plant object
+//instead of assigning it to opPlant and then using opPlant to call it
 function plant1Preserve() {
   opPlant = plant1;
+  generatePlantChildren(opPlant);
 }
 function plant2Preserve() {
   opPlant = plant2;
+  generatePlantChildren(opPlant);
 }
 function plant3Preserve() {
   opPlant = plant3;
+  generatePlantChildren(opPlant);
 }
 function drawGreenhouse() {
   let greenhouseGreen = color(211, 293, 199);
