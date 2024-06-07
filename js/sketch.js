@@ -66,8 +66,12 @@ function mousePressed() {
 }
 
 function isMouseOverPlant(plant) {
-  let distance = dist(mouseX, mouseY, plant.x, plant.y);
-  return distance < 50; // Adjust this value based on plant size
+  // Calculate the center of the plant and its clickable radius
+  let centerX = plant.x;
+  let centerY = plant.y - plant.structure[3]*3;
+  let clickableRadius = plant.structure[3] / 2 + 125;
+  let distance = dist(mouseX, mouseY, centerX, centerY);
+  return distance < clickableRadius;
 }
 
 function drawPlant(plant) {
@@ -75,7 +79,10 @@ function drawPlant(plant) {
     stroke(255, 0, 0);
     strokeWeight(3);
     noFill();
-    ellipse(plant.x, plant.y, 100, 100); // Draw a red circle around the plant to indicate it's clickable
+    let centerX = plant.x;
+    let centerY = plant.y - plant.structure[3] / 2;
+    let clickableRadius = plant.structure[3] / 2+ 125;
+    ellipse(centerX, centerY, clickableRadius * 2, clickableRadius * 2); // Draw a red circle around the plant to indicate it's clickable
   }
   plant.drawFeatures();
 }
@@ -325,4 +332,5 @@ class Plant {
     endShape(CLOSE);
   }
 }
+
 
