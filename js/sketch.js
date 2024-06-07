@@ -13,27 +13,18 @@ let plant1, plant2, plant3;
 
 // optimal plant
 let opPlant;
+let hoverPlant = null; // To keep track of which plant is being hovered over
 
-// mousePressed() function is called once after every time a mouse button is pressed
-function mousePressed() {
-  // code to run when mouse is pressed
-}
-
-// setup() function is called once when the program starts
 function setup() {
   // place our canvas, making it fit our container
   canvasContainer = $("#canvas-container");
   let canvas = createCanvas(1000, 600);
   canvas.parent("canvas-container");
-  
+
   initializePlants();
 
   // Attach event listener to the button
   $("#randomize-btn").click(randomizePlants);
-  // Attach event listener to plant buttons
-  $("#p1-btn").click(plant1Preserve);
-  $("#p2-btn").click(plant2Preserve);
-  $("#p3-btn").click(plant3Preserve);
 }
 
 // Initialize plants with default values
@@ -50,24 +41,48 @@ function draw() {
   // set up greenhouse background
   drawGreenhouse();
 
-  // draw plants
-  plant1.drawFeatures();
-  plant2.drawFeatures();
-  plant3.drawFeatures();
+  // draw plants with hover effect if applicable
+  drawPlant(plant1);
+  drawPlant(plant2);
+  drawPlant(plant3);
 }
-/*Created a randomizePlants function to randomize the attributes of the plants.
-  This function changes the seed for the random number generator and assigns new random attributes to plant1, plant2, and plant3. 
-  The attributes include:
-      depth: Random value between 2 and 6.
-      angle: Random value between 30 and 70 degrees.
-      stems: Random integer between 1 and 5.
-      length: Random value between 30 and 70 units.
-      stemColor and leafColor: Random colors.
-      */
+
+function mouseMoved() {
+  if (isMouseOverPlant(plant1)) {
+    hoverPlant = plant1;
+  } else if (isMouseOverPlant(plant2)) {
+    hoverPlant = plant2;
+  } else if (isMouseOverPlant(plant3)) {
+    hoverPlant = plant3;
+  } else {
+    hoverPlant = null;
+  }
+}
+
+function mousePressed() {
+  if (hoverPlant) {
+    generatePlantChildren(hoverPlant);
+  }
+}
+
+function isMouseOverPlant(plant) {
+  let distance = dist(mouseX, mouseY, plant.x, plant.y);
+  return distance < 50; // Adjust this value based on plant size
+}
+
+function drawPlant(plant) {
+  if (plant === hoverPlant) {
+    stroke(255, 0, 0);
+    strokeWeight(3);
+    noFill();
+    ellipse(plant.x, plant.y, 100, 100); // Draw a red circle around the plant to indicate it's clickable
+  }
+  plant.drawFeatures();
+}
 
 function randomizePlants() {
   seed = Math.floor(Math.random() * 1000); // Change the seed for randomization
-  
+
   // Randomize plant attributes
   plant1 = new Plant(width / 4, 550, [
     random(2, 6), 
@@ -97,13 +112,9 @@ function randomizePlants() {
   ]);
 }
 
-//function to make plant children, very similar to the structure of randomize plants,
-//except it uses a parentPlant object and its information to generate the two
-//other plants
-
-function generatePlantChildren(parentPlant){
+function generatePlantChildren(parentPlant) {
   seed = Math.floor(Math.random() * 1000); // Change the seed for randomization
-  
+
   // [depth, angle, stems, length, stemColor, leafColor]
   // Randomize plant attributes
   plant1 = new Plant(width / 4, 550, [
@@ -134,20 +145,6 @@ function generatePlantChildren(parentPlant){
   ]);
 }
 
-//possibly try to call generatePlantChildren with the respective plant object
-//instead of assigning it to opPlant and then using opPlant to call it
-function plant1Preserve() {
-  opPlant = plant1;
-  generatePlantChildren(opPlant);
-}
-function plant2Preserve() {
-  opPlant = plant2;
-  generatePlantChildren(opPlant);
-}
-function plant3Preserve() {
-  opPlant = plant3;
-  generatePlantChildren(opPlant);
-}
 function drawGreenhouse() {
   let greenhouseGreen = color(211, 293, 199);
   let groundColor = color(100, 200, 0);
@@ -328,3 +325,4 @@ class Plant {
     endShape(CLOSE);
   }
 }
+
