@@ -125,16 +125,6 @@ function generatePlantChildren(parentPlant) {
   // [depth, angle, stems, length, stemColor, leafColor]
   // Randomize plant attributes
 
-  print(
-    "PARENT PLANT ATTRIBUTES:" + 
-    "\n\tDepth: "     + parentPlant.structure[0] + 
-    "\n\tAngle: "     + parentPlant.structure[1] +
-    "\n\tStems: "     + parentPlant.structure[2] +
-    "\n\tLength: "    + parentPlant.structure[3] +
-    "\n\tstemColor: " + parentPlant.structure[4] +
-    "\n\tleafColor: " + parentPlant.structure[5]
-  );
-
   plant1 = new Plant(width / 4, 550, [
     constrain(parentPlant.structure[0] + random(-3, 3), 2, 6),  
     random(30, 70), 
