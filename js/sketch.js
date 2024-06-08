@@ -138,7 +138,7 @@ function generatePlantChildren(parentPlant) {
     constrain(parentPlant.structure[0] + random(-1, 1), 2, 6), 
     parentPlant.structure[1], 
     constrain(parentPlant.structure[2] + floor(random(-1, 1)), 1, 6), 
-    constrain(random(parentPlant.structure[3] * .8, parentPlant.structure[3] * 1.5), 30, 150), 
+    constrain(random(parentPlant.structure[3] * .8, parentPlant.structure[3] * 1.5), 30, 90), 
     parentPlant.structure[4], 
     modulateColor(parentPlant.structure[5], .6, 1.4)
   ]);
@@ -147,7 +147,7 @@ function generatePlantChildren(parentPlant) {
     constrain(random(parentPlant.structure[0] * .5, parentPlant.structure[0] * 1.5), 0, 6), 
     random(parentPlant.structure[1] * .75, parentPlant.structure[1] * 1.25), 
     Math.floor(random(1, 6)), 
-    constrain(random(parentPlant.structure[3] * .5, parentPlant.structure[3] * 1.2), 30, 150), 
+    constrain(random(parentPlant.structure[3] * .5, parentPlant.structure[3] * 1.2), 30, 90), 
     color(random(255), random(255), random(255)), 
     modulateColor(parentPlant.structure[5], .5, 1.5)
   ]);
