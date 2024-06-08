@@ -124,31 +124,42 @@ function generatePlantChildren(parentPlant) {
 
   // [depth, angle, stems, length, stemColor, leafColor]
   // Randomize plant attributes
+
+  print(
+    "PARENT PLANT ATTRIBUTES:" + 
+    "\n\tDepth: "     + parentPlant.structure[0] + 
+    "\n\tAngle: "     + parentPlant.structure[1] +
+    "\n\tStems: "     + parentPlant.structure[2] +
+    "\n\tLength: "    + parentPlant.structure[3] +
+    "\n\tstemColor: " + parentPlant.structure[4] +
+    "\n\tleafColor: " + parentPlant.structure[5]
+  );
+
   plant1 = new Plant(width / 4, 550, [
-    random(2, 6), 
+    constrain(parentPlant.structure[0] + random(-3, 3), 2, 6),  
     random(30, 70), 
-    parentPlant.structure[2], 
+    constrain(parentPlant.structure[2] + floor(random(-2, 2)), 1, 8), 
     random(30, 70), 
-    parentPlant.structure[4], 
+    modulateColor(parentPlant.structure[4], .6, 1.4), 
     parentPlant.structure[5]
   ]);
 
   plant2 = new Plant(width / 2, 550, [
-    parentPlant.structure[0], 
+    constrain(parentPlant.structure[0] + random(-1, 1), 2, 6), 
     parentPlant.structure[1], 
-    parentPlant.structure[2], 
-    parentPlant.structure[3], 
+    constrain(parentPlant.structure[2] + floor(random(-1, 1)), 1, 6), 
+    constrain(random(parentPlant.structure[3] * .8, parentPlant.structure[3] * 1.5), 30, 150), 
     parentPlant.structure[4], 
-    parentPlant.structure[5]
+    modulateColor(parentPlant.structure[5], .6, 1.4)
   ]);
 
   plant3 = new Plant(3 * width / 4, 550, [
-    parentPlant.structure[0], 
-    random(30, 70), 
+    constrain(random(parentPlant.structure[0] * .5, parentPlant.structure[0] * 1.5), 0, 6), 
+    random(parentPlant.structure[1] * .75, parentPlant.structure[1] * 1.25), 
     Math.floor(random(1, 6)), 
-    parentPlant.structure[3], 
+    constrain(random(parentPlant.structure[3] * .5, parentPlant.structure[3] * 1.2), 30, 150), 
     color(random(255), random(255), random(255)), 
-    parentPlant.structure[5]
+    modulateColor(parentPlant.structure[5], .5, 1.5)
   ]);
 }
 
@@ -333,4 +344,12 @@ class Plant {
   }
 }
 
+function modulateColor(input, minCol, maxCol)
+{
+  let r = random(red(input) * minCol, red(input) * maxCol);
+  let g = random(green(input) * minCol, green(input) * maxCol);
+  let b = random(blue(input) * minCol, blue(input) * maxCol);
+
+  return color(r, g, b);
+}
 
