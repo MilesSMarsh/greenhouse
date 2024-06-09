@@ -38,8 +38,6 @@ function initializePlants() {
 
 // // draw() function is called repeatedly, it's the main animation loop
 // function draw() {
-//    // Seed the random number generator
-
 // }
 
 function mouseMoved() {
@@ -66,8 +64,6 @@ function mousePressed() {
     randomSeed(seed);
     drawBackground();
   }
-
-  
 }
 
 function isMouseOverPlant(plant) {
@@ -131,7 +127,7 @@ function generatePlantChildren(parentPlant) {
   // Randomize plant attributes
 
   plant1 = new Plant(width / 4, 550, [
-    constrain(parentPlant.structure[0] + random(-3, 3), 2, 6),  
+    constrain(parentPlant.structure[0] + random(-3, 3), 2, 5),  
     random(30, 70), 
     constrain(parentPlant.structure[2] + floor(random(-2, 2)), 1, 8), 
     random(30, 70), 
@@ -140,7 +136,7 @@ function generatePlantChildren(parentPlant) {
   ]);
 
   plant2 = new Plant(width / 2, 550, [
-    constrain(parentPlant.structure[0] + random(-1, 1), 2, 6), 
+    constrain(parentPlant.structure[0] + random(-1, 1), 2, 5), 
     parentPlant.structure[1], 
     constrain(parentPlant.structure[2] + floor(random(-1, 1)), 1, 6), 
     constrain(random(parentPlant.structure[3] * .8, parentPlant.structure[3] * 1.5), 30, 90), 
@@ -149,7 +145,7 @@ function generatePlantChildren(parentPlant) {
   ]);
 
   plant3 = new Plant(3 * width / 4, 550, [
-    constrain(random(parentPlant.structure[0] * .5, parentPlant.structure[0] * 1.5), 0, 6), 
+    constrain(random(parentPlant.structure[0] * .5, parentPlant.structure[0] * 1.5), 0, 5), 
     random(parentPlant.structure[1] * .75, parentPlant.structure[1] * 1.25), 
     Math.floor(random(1, 6)), 
     constrain(random(parentPlant.structure[3] * .5, parentPlant.structure[3] * 1.2), 30, 90), 
