@@ -10,6 +10,8 @@
 
 let seed = 1;
 let plant1, plant2, plant3;
+let particles;
+let particleNum;
 
 // optimal plant
 let opPlant;
@@ -22,9 +24,11 @@ function setup() {
   canvas.parent("canvas-container");
 
   initializePlants();
+  initializeParticles();
 
   // Attach event listener to the button
   $("#randomize-btn").click(randomizePlants);
+
 
   drawBackground();
 }
@@ -38,13 +42,8 @@ function initializePlants() {
 
 // // draw() function is called repeatedly, it's the main animation loop
  function draw() {
-
-  plant1.animateFeatures();
-  plant2.animateFeatures();
-  plant3.animateFeatures();
-
   drawBackground();
-  
+  drawParticles();
  }
 
 function mouseMoved() {
@@ -84,9 +83,10 @@ function drawPlant(plant) {
     let centerX = plant.x;
     let centerY = plant.y - plant.structure[3] / 2;
     let clickableRadius = plant.structure[3] / 2+ 125;
-    ellipse(centerX, centerY, clickableRadius * 2, clickableRadius * 2); // Draw a red circle around the plant to indicate it's clickable
+    let circleDrawRadius = (clickableRadius * 2) + (sin(millis() / 90) * 12);
+    ellipse(centerX, centerY, circleDrawRadius, circleDrawRadius); // Draw a red circle around the plant to indicate it's clickable
   }
-  //plant.drawFeatures();
+  plant.drawFeatures();
 }
 
 function randomizePlants() {
@@ -215,10 +215,15 @@ class Plant {
     if(this.initLengthAnim < this.initLength)
     {
       this.initLengthAnim += 2;
+      this.structure[3] = this.initLengthAnim;
     }
-    this.structure[3] = this.initLengthAnim;
+    else
+    {
+      this.structure[3] = this.initLength+ sin(millis() / 900) * 1;
+    }
     
-    this.structure[1] = this.initAngle + sin(millis() / 10000) * 10;
+    
+    this.structure[1] = this.initAngle + sin(millis() / 10000) * 12;
   }
 
   drawFeatures() {
@@ -355,6 +360,31 @@ class Plant {
   }
 }
 
+class Particles
+{
+  constructor(x, y, radius) 
+  {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.offset = random(0, 9999);
+  }
+
+  move()
+  {
+    this.x += (noise(this.offset + millis() / 1000) - .5);
+    constrain(this.x, 0, width);
+    this.y += (noise(this.offset + 1000 + (millis() / 1000)) - .5);
+    constrain(this.y, 0, height);
+  }
+
+  drawParticle()
+  {
+    fill(255, 255, 255, 128);
+    ellipse(this.x, this.y, this.radius);
+  }
+}
+
 function modulateColor(input, minCol, maxCol)
 {
   let r = random(red(input) * minCol, red(input) * maxCol);
@@ -366,15 +396,34 @@ function modulateColor(input, minCol, maxCol)
 
 function drawBackground()
 {
+  plant1.animateFeatures();
+  plant2.animateFeatures();
+  plant3.animateFeatures();
   // set up greenhouse background
   drawGreenhouse();
 
   // draw plants with hover effect if applicable
-  plant1.drawFeatures();
-  plant2.drawFeatures();
-  plant3.drawFeatures();
-
-    drawPlant(plant1);
+  drawPlant(plant1);
   drawPlant(plant2);
   drawPlant(plant3);
+}
+
+function initializeParticles()
+{
+  partciles = [];
+  particleNum = 50;
+
+  for(let i = 0; i < particleNum; i++)
+  {
+    partciles[i] = new Particles(random(0, width), random(0, height * .66), random(5, 15));
+  }
+}
+
+function drawParticles()
+{
+  for(let i = 0; i < particleNum; i++)
+  {
+    partciles[i].move();
+    partciles[i].drawParticle();
+  }
 }
