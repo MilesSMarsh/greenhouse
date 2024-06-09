@@ -25,6 +25,8 @@ function setup() {
 
   // Attach event listener to the button
   $("#randomize-btn").click(randomizePlants);
+
+  drawBackground();
 }
 
 // Initialize plants with default values
@@ -34,26 +36,25 @@ function initializePlants() {
   plant3 = new Plant(3 * width / 4, 550, [5, 40, 5, 50, color(70, 150, 150), color(150, 100, 150)]);
 }
 
-// draw() function is called repeatedly, it's the main animation loop
-function draw() {
-  randomSeed(seed); // Seed the random number generator
+// // draw() function is called repeatedly, it's the main animation loop
+// function draw() {
+//    // Seed the random number generator
 
-  // set up greenhouse background
-  drawGreenhouse();
-
-  // draw plants with hover effect if applicable
-  drawPlant(plant1);
-  drawPlant(plant2);
-  drawPlant(plant3);
-}
+// }
 
 function mouseMoved() {
   if (isMouseOverPlant(plant1)) {
     hoverPlant = plant1;
+    drawBackground();
+    drawPlant(plant1);
   } else if (isMouseOverPlant(plant2)) {
     hoverPlant = plant2;
+    drawBackground();
+    drawPlant(plant2);
   } else if (isMouseOverPlant(plant3)) {
     hoverPlant = plant3;
+    drawBackground();
+    drawPlant(plant3);
   } else {
     hoverPlant = null;
   }
@@ -62,7 +63,11 @@ function mouseMoved() {
 function mousePressed() {
   if (hoverPlant) {
     generatePlantChildren(hoverPlant);
+    randomSeed(seed);
+    drawBackground();
   }
+
+  
 }
 
 function isMouseOverPlant(plant) {
@@ -84,7 +89,7 @@ function drawPlant(plant) {
     let clickableRadius = plant.structure[3] / 2+ 125;
     ellipse(centerX, centerY, clickableRadius * 2, clickableRadius * 2); // Draw a red circle around the plant to indicate it's clickable
   }
-  plant.drawFeatures();
+  //plant.drawFeatures();
 }
 
 function randomizePlants() {
@@ -343,3 +348,13 @@ function modulateColor(input, minCol, maxCol)
   return color(r, g, b);
 }
 
+function drawBackground()
+{
+  // set up greenhouse background
+  drawGreenhouse();
+
+  // draw plants with hover effect if applicable
+  plant1.drawFeatures();
+  plant2.drawFeatures();
+  plant3.drawFeatures();
+}
