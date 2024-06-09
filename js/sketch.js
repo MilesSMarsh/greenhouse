@@ -37,22 +37,23 @@ function initializePlants() {
 }
 
 // // draw() function is called repeatedly, it's the main animation loop
-// function draw() {
-// }
+ function draw() {
+
+  plant1.animateFeatures();
+  plant2.animateFeatures();
+  plant3.animateFeatures();
+
+  drawBackground();
+  
+ }
 
 function mouseMoved() {
   if (isMouseOverPlant(plant1)) {
     hoverPlant = plant1;
-    drawBackground();
-    drawPlant(plant1);
   } else if (isMouseOverPlant(plant2)) {
     hoverPlant = plant2;
-    drawBackground();
-    drawPlant(plant2);
   } else if (isMouseOverPlant(plant3)) {
     hoverPlant = plant3;
-    drawBackground();
-    drawPlant(plant3);
   } else {
     hoverPlant = null;
   }
@@ -155,6 +156,9 @@ function generatePlantChildren(parentPlant) {
 }
 
 function drawGreenhouse() {
+  //Reset drawing scale
+  scale(1, 1);
+
   let greenhouseGreen = color(211, 293, 199);
   let groundColor = color(100, 200, 0);
 
@@ -199,13 +203,29 @@ class Plant {
     this.structure = structure; // [depth, angle, stems, length, stemColor, leafColor]
     this.x = x;
     this.y = y;
+    this.initAngle = this.structure[1];
+    this.initLength = this.structure[3];
     this.stemColor = this.structure[4];
     this.leafColor = this.structure[5];
+    this.initLengthAnim = 0;
+  }
+
+  animateFeatures()
+  { 
+    if(this.initLengthAnim < this.initLength)
+    {
+      this.initLengthAnim += 2;
+    }
+    this.structure[3] = this.initLengthAnim;
+    
+    this.structure[1] = this.initAngle + sin(millis() / 10000) * 10;
   }
 
   drawFeatures() {
     this.drawPlanter(this.x, this.y);
     this.plantRecur(this.x, this.y, this.structure[0], this.structure[1], this.structure[2], this.structure[3]);
+
+    scale(1, 1);
   }
 
   plantRecur(x, y, depth, angle, stems, length) {
@@ -353,4 +373,8 @@ function drawBackground()
   plant1.drawFeatures();
   plant2.drawFeatures();
   plant3.drawFeatures();
+
+    drawPlant(plant1);
+  drawPlant(plant2);
+  drawPlant(plant3);
 }
