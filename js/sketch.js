@@ -13,6 +13,12 @@ let plant1, plant2, plant3;
 let particles;
 let particleNum;
 
+// Shows framerate from how quickly it moves
+
+let greenSway = 0;
+let greenAlternate = false;
+let grassBreeze = 0;
+
 // optimal plant
 let opPlant;
 let hoverPlant = null; // To keep track of which plant is being hovered over
@@ -159,8 +165,26 @@ function drawGreenhouse() {
   //Reset drawing scale
   scale(1, 1);
 
-  let greenhouseGreen = color(211, 293, 199);
+  let greenhouseGreen = color(211, 293, 199+greenSway);
   let groundColor = color(100, 200, 0);
+  let groundShade = color(85,180,0);
+  let groundDarken = color(70,150,0);
+  
+  // update animated sway
+  
+  if (greenSway == 0) {
+    greenAlternate = !greenAlternate;
+  }
+
+  if (greenAlternate) {
+    greenhouseGreen = color(211, 293, 230-greenSway);
+  }
+  
+  greenSway += 0.5;
+  greenSway = greenSway % 31;
+
+  grassBreeze+=0.1;
+  grassBreeze = grassBreeze % 100;
 
   // background
   background(greenhouseGreen);
@@ -186,7 +210,24 @@ function drawGreenhouse() {
   vertex(width, height);
   endShape(CLOSE);
 
+  /*// grass
+  let grassPatch2 = grassBreeze + 33.3;
+  grassPatch2 = grassPatch2 % 100;
+
+
+  fill(groundShade);
+  strokeWeight(2);
+  beginShape();
+  let grassTopX = (width/3 + grassBreeze*width/300);
+  let grassBottomX = (grassBreeze*width/100);
+  let axisGrass = (height-400) / 5;
+  for (let grassA = 400; grassA <= height; grassA += 5) {
+    vertex(grassBreeze*(grassA-400)/height,grassA);
+  }
+  endShape();*/
+
   // walls
+  strokeWeight(3);
   beginShape();
   vertex(width / 3, 200);
   vertex(width / 3, 400);
